@@ -6,6 +6,7 @@ buildscript {
     ext.retrofit_version = "2.9.0"
     ext.logging_interceptor_version = '4.9.0'
     ext.lifecycle_version = "2.5.1"
+    ext.activity_ktx_version = "1.6.1"
 
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
