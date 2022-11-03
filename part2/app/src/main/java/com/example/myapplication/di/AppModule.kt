@@ -5,7 +5,6 @@ import com.example.myapplication.core.domain.usecase.JokeUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -13,7 +12,6 @@ import dagger.hilt.components.SingletonComponent
 abstract class AppModule {
 
     @Binds
-    @ViewModelScoped
     abstract fun provideJokeUseCase(jokeInteractor: JokeInteractor): JokeUseCase
 
 }
