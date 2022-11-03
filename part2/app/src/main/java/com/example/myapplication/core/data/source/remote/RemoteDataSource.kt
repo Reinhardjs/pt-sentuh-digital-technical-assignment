@@ -36,7 +36,7 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
                 if (dataArray.isNotEmpty()) {
                     emit(ApiResponse.Success(response.results))
                 } else {
-                    emit(ApiResponse.Empty)
+                    emit(ApiResponse.Empty(response.results))
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))

@@ -1,7 +1,6 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -38,6 +37,11 @@ class MainActivity : AppCompatActivity() {
                         binding.progressBar.visibility = View.GONE
                         if (joke.data != null)
                             jokeAdapter.setData(listOf(joke.data))
+                        Toast.makeText(
+                            applicationContext,
+                            "You just seen one random joke. \nTo get more jokes please search...",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                     is Resource.Error -> {
                         binding.progressBar.visibility = View.GONE
@@ -48,14 +52,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mainViewModel.searchJokes("about").observe(this) { jokes ->
-            if (jokes != null) {
-                when (jokes) {
-                    is Resource.Loading -> Log.d("MainActivity", "Loading Jokes Search Request")
-                    is Resource.Success -> Log.d("MainActivity", jokes.data.toString())
-                    is Resource.Error -> Log.d("MainActivity", "Error : " + jokes.message)
+        binding.search.setOnClickListener {
+            jokeAdapter.setData(listOf())
+            mainViewModel.searchJokes(binding.tilSearchJokes.editText?.text.toString())
+                .observe(this) { jokes ->
+                    if (jokes != null) {
+                        when (jokes) {
+                            is Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
+                            is Resource.Success -> {
+                                binding.progressBar.visibility = View.GONE
+                                jokeAdapter.setData(jokes.data)
+                            }
+                            is Resource.Error -> {
+                                binding.progressBar.visibility = View.GONE
+                                binding.viewError.root.visibility = View.GONE
+                                binding.viewError.tvError.text = jokes.message ?: "Something wrong"
+                            }
+                        }
+                    }
                 }
-            }
         }
     }
 }

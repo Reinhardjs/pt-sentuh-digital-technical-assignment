@@ -14,7 +14,7 @@ abstract class NetworkBoundResource<RequestType> {
                 emit(Resource.Success(apiResponse.data))
             }
             is ApiResponse.Empty -> {
-                emit(Resource.Success(listOf<RequestType>()[0]))
+                emit(Resource.Success(apiResponse.data))
             }
             is ApiResponse.Error -> {
                 onFetchFailed()
