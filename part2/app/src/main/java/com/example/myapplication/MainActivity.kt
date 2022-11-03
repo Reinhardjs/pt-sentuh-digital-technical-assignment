@@ -16,9 +16,6 @@ import com.example.myapplication.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import android.widget.EditText
 
-
-
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
