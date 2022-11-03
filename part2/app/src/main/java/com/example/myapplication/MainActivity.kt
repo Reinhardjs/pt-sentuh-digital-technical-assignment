@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         val view: View = binding.root
         setContentView(view)
 
-
         with(binding.rvJoke) {
             layoutManager = LinearLayoutManager(applicationContext)
             adapter = jokeAdapter
