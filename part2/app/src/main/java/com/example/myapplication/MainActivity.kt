@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,9 +17,31 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel.randomJoke.observe(this) { joke ->
-            if (joke != null) {
-                when (joke) {
+//        mainViewModel.randomJoke.observe(this) { joke ->
+//            if (joke != null) {
+//                when (joke) {
+//                    is Resource.Loading -> Toast.makeText(
+//                        applicationContext,
+//                        "Loading",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                    is Resource.Success -> Toast.makeText(
+//                        applicationContext,
+//                        joke.data?.value,
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                    is Resource.Error -> Toast.makeText(
+//                        applicationContext,
+//                        "Error",
+//                        Toast.LENGTH_LONG
+//                    ).show()
+//                }
+//            }
+//        }
+
+        mainViewModel.searchJokes("about").observe(this) { jokes ->
+            if (jokes != null) {
+                when (jokes) {
                     is Resource.Loading -> Toast.makeText(
                         applicationContext,
                         "Loading",
@@ -26,14 +49,10 @@ class MainActivity : AppCompatActivity() {
                     ).show()
                     is Resource.Success -> Toast.makeText(
                         applicationContext,
-                        joke.data?.value,
+                        jokes.data.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
-                    is Resource.Error -> Toast.makeText(
-                        applicationContext,
-                        "Error",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    is Resource.Error -> Log.d("MainActivity", "Error : " + jokes.message)
                 }
             }
         }
