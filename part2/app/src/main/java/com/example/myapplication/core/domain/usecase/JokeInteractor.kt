@@ -10,5 +10,5 @@ class JokeInteractor @Inject constructor(private val jokeRepository: IJokeReposi
     JokeUseCase {
     override fun getRandomJoke(): Flow<Resource<Joke>> = jokeRepository.getRandomJoke()
 
-    override fun searchJokes(): Flow<Resource<List<Joke>>> = jokeRepository.searchJokes()
+    override fun searchJokes(query: String): Flow<Resource<List<Joke>>> = jokeRepository.searchJokes(query)
 }

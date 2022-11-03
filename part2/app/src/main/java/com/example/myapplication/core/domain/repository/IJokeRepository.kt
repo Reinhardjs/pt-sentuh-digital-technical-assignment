@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface IJokeRepository {
     fun getRandomJoke(): Flow<Resource<Joke>>
 
-    fun searchJokes(): Flow<Resource<List<Joke>>>
+    fun searchJokes(query: String): Flow<Resource<List<Joke>>>
 }
