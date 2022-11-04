@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity() {
             myService = (binder as MyService.MyBinder).service
             myService.setActivityCallback(object : MyCallback {
                 override fun sendSomething(value: String) {
-                    Log.d("MainActivity", "$'{value}' was sended from service")
+                    Toast.makeText(applicationContext, "'${value}' was sended from service", Toast.LENGTH_LONG).show()
                 }
             })
             isMyServiceBound = true
