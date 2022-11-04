@@ -4,23 +4,28 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Bundle
-import android.os.IBinder
+import android.os.*
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var timerService: MyService
-    private var isTimerServiceBound: Boolean = false
-    private val timerServiceConnection = object : ServiceConnection {
+    private lateinit var myService: MyService
+    private var isMyServiceBound: Boolean = false
+    private val myServiceConnection = object : ServiceConnection {
 
         override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
-            timerService = (binder as MyService.MyBinder).service
-            isTimerServiceBound = true
+            myService = (binder as MyService.MyBinder).service
+            myService.setActivityCallback(object: MyCallback {
+                override fun sendSomething(value: String) {
+                    Log.d("MainActivity", "$'{value}' was sended from service")
+                }
+            })
+            isMyServiceBound = true
         }
 
         override fun onServiceDisconnected(p0: ComponentName?) {
-            isTimerServiceBound = false
+            isMyServiceBound = false
         }
     }
 
@@ -33,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             startService(Intent(this, MyService::class.java))
             bindService(
                 Intent(this, MyService::class.java),
-                timerServiceConnection,
+                myServiceConnection,
                 Context.BIND_AUTO_CREATE
             )
         }
@@ -46,8 +51,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (isTimerServiceBound) {
-            unbindService(timerServiceConnection)
+        if (isMyServiceBound) {
+            unbindService(myServiceConnection)
         }
+    }
+
+    interface MyCallback {
+        fun sendSomething(value: String)
     }
 }

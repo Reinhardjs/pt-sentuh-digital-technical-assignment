@@ -7,6 +7,8 @@ import android.os.IBinder
 
 class MyService : Service() {
 
+    private lateinit var activityCallback: MainActivity.MyCallback
+
     private val binder: Binder = MyBinder()
 
     override fun onBind(p0: Intent?): IBinder = binder
@@ -14,5 +16,9 @@ class MyService : Service() {
     inner class MyBinder : Binder() {
         val service: MyService
             get() = this@MyService
+    }
+
+    fun setActivityCallback(activityCallback: MainActivity.MyCallback){
+        this.activityCallback = activityCallback
     }
 }
