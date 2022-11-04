@@ -43,4 +43,11 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isTimerServiceBound) {
+            unbindService(timerServiceConnection)
+        }
+    }
 }
