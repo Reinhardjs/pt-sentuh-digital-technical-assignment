@@ -21,4 +21,8 @@ class MyService : Service() {
     fun setActivityCallback(activityCallback: MainActivity.MyCallback){
         this.activityCallback = activityCallback
     }
+
+    fun sendToActivity(value: String){
+        this.activityCallback.sendSomething(value)
+    }
 }

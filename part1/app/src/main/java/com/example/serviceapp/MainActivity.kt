@@ -4,7 +4,8 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.*
+import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
             myService = (binder as MyService.MyBinder).service
-            myService.setActivityCallback(object: MyCallback {
+            myService.setActivityCallback(object : MyCallback {
                 override fun sendSomething(value: String) {
                     Log.d("MainActivity", "$'{value}' was sended from service")
                 }
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         val btnSendFromService = findViewById<Button>(R.id.btn_send_from_service)
         btnSendFromService.setOnClickListener {
-
+            myService.sendToActivity("This is data sended from service")
         }
     }
 
