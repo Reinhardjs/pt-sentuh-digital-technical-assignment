@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,10 +16,15 @@ class MainActivity : AppCompatActivity() {
     private val myServiceConnection = object : ServiceConnection {
 
         override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
+            Toast.makeText(
+                applicationContext, "Service successfully started and loaded", Toast.LENGTH_LONG
+            ).show()
             myService = (binder as MyService.MyBinder).service
             myService.setActivityCallback(object : MyCallback {
                 override fun sendSomething(value: String) {
-                    Toast.makeText(applicationContext, "'${value}' was sended from service", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        applicationContext, "'${value}' was sended from service", Toast.LENGTH_LONG
+                    ).show()
                 }
             })
             isMyServiceBound = true
@@ -39,9 +43,7 @@ class MainActivity : AppCompatActivity() {
         btnStartService.setOnClickListener {
             startService(Intent(this, MyService::class.java))
             bindService(
-                Intent(this, MyService::class.java),
-                myServiceConnection,
-                Context.BIND_AUTO_CREATE
+                Intent(this, MyService::class.java), myServiceConnection, Context.BIND_AUTO_CREATE
             )
         }
 
