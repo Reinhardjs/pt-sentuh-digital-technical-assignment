@@ -3,6 +3,7 @@ package com.example.serviceapp
 import android.app.Service
 import android.content.Intent
 import android.os.Binder
+import android.os.CountDownTimer
 import android.os.IBinder
 
 class MyService : Service() {
@@ -20,9 +21,16 @@ class MyService : Service() {
 
     fun setActivityCallback(activityCallback: MainActivity.MyCallback){
         this.activityCallback = activityCallback
-    }
 
-    fun sendToActivity(value: String){
-        this.activityCallback.sendSomething(value)
+        object : CountDownTimer(15000, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                activityCallback.sendSomething("${(millisUntilFinished / 1000)}")
+            }
+
+            override fun onFinish() {
+                activityCallback.sendSomething("done!")
+            }
+        }.start()
     }
 }
